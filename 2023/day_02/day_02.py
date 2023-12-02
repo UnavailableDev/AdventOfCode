@@ -1,11 +1,17 @@
+import sys
 
+script_dir = sys.path
+sys.path.append("../")
 
+import lib.advent_math
+
+sys.path = script_dir
 
 def f_validator(rounds):
+   max_red = 1
+   max_green = 1
+   max_blue = 1
    for round in rounds:
-      red = 0
-      green = 0
-      blue = 0
       cubes = round.split(', ')
       print(cubes)
       for cube in cubes:
@@ -13,16 +19,14 @@ def f_validator(rounds):
          num = int(num)
          match colour:
             case "red":
-               red = num
+               max_red = max(max_red, num)  
             case "green":
-               green = num
+               max_green = max(max_green, num)
             case "blue":
-               blue = num
+               max_blue = max(max_blue, num)
       
-      if red > 12 or green > 13 or blue > 14:
-         return False
 
-   return True
+   return max_blue*max_green*max_red
 
 
 
@@ -38,10 +42,6 @@ for li in (lines):
 
    rounds = game.split('; ')
    
-   if f_validator(rounds):
-      print(game_id)
-      val = val + int(game_id)
-
-   val = val 
+   val = val + f_validator(rounds)
 
 print(val)
